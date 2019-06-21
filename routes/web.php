@@ -17,3 +17,16 @@ Route::get('/', function () {
 Route::get('/post',function (){
     return view('user.post');
 });
+
+Route::get('/admins',function (){
+    return view('admin.home');
+});
+Route::get('/admins/post',function (){
+    return view('admin.post.create');
+});
+Route::get('/admins/tag',function (){
+    return view('admin.tag.create');
+});
+Route::get('/admins/category',function (){
+    return view('admin.category.create');
+});
