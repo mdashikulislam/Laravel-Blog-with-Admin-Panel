@@ -25,7 +25,7 @@ return array(
     |
     */
 
-    'include_fluent' => false,
+    'include_fluent' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -203,6 +203,7 @@ return array(
     | magic methods and properties.
     |
     */
+
     'include_class_docblocks' => false,
 
 );
