@@ -10,23 +10,26 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//User route
 
-Route::get('/', function () {
-    return view('user.home');
-});
-Route::get('/post',function (){
-    return view('user.post');
+Route::group(['namespace'=>'User'],function (){
+    Route::get('/','HomeController@index');
+    Route::get('/post','PostController@index')->name('user.post');
 });
 
-Route::get('/admins',function (){
-    return view('admin.home');
+
+//Admin Route
+
+Route::group(['namespace' => 'Admin','prefix'=>'backend'],function (){
+
+    Route::get('/home','HomeController@index')->name('admin.home');
+    //Post Route
+    Route::resource('/post','PostController');
+    //Tag Route
+    Route::resource('/tag','TagController');
+    //Category Route
+    Route::resource('/category','CategoryController');
+    //User Route
+    Route::resource('/user','UserController');
 });
-Route::get('/admins/post',function (){
-    return view('admin.post.create');
-});
-Route::get('/admins/tag',function (){
-    return view('admin.tag.create');
-});
-Route::get('/admins/category',function (){
-    return view('admin.category.create');
-});
+

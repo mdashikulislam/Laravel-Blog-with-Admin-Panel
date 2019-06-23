@@ -10,7 +10,7 @@
             <li class="active">Dashboard</li>
         </ol>
     </section>
-    @endsection
+@endsection
 @section('maincontent')
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
