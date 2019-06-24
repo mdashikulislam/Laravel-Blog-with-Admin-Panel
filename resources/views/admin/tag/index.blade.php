@@ -7,7 +7,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
+            <li class="active">Tag</li>
         </ol>
     </section>
 @endsection
@@ -16,13 +16,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Blank
-                <small>it all starts here</small>
+                Tags
+
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="active">Blank page</li>
+                <li class="active">Tag</li>
             </ol>
         </section>
 
@@ -32,8 +31,8 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Title</h3>
-
+                    <h3 class="box-title">Tags</h3>
+                    <a href="{{route('tag.create')}}" class="col-lg-offset-5 btn btn-success">Add Tag</a>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fa fa-minus"></i></button>
@@ -42,7 +41,57 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    Start creating your
+                    <table id="datatable" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>SL NO</th>
+                            <th>Name</th>
+                            <th>Slug</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($tags as $tag)
+                            <tr>
+                                <td>{{$loop->index + 1}}</td>
+                                <td>{{$tag->name}}</td>
+                                <td>{{$tag->slug}}</td>
+                                <td>
+                                    <a href="{{route('tag.show',['id' => $tag->id])}}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
+                                </td>
+                                <td>
+                                    <form action="{{route('tag.destroy',['id'=>$tag->id])}}" method="post" style="display: none;" id="delete-form-{{$tag->id}}">
+                                        @csrf
+                                        {{method_field('DELETE')}}
+                                    </form>
+                                        <a href="" class="btn btn-danger" onclick="
+                                                if (confirm('Are you sure, want to delete this ?')){
+                                                    event.preventDefault();
+                                                    document.getElementById('delete-form-{{$tag->id}}').submit();
+                                                }else {
+                                                    event.preventDefault();
+                                                }
+
+                                                "><span class="glyphicon glyphicon-trash"></span></a>
+
+                                </td>
+                            </tr>
+                        @endforeach
+
+
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>SL NO</th>
+                            <th>Name</th>
+                            <th>Slug</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </tfoot>
+                    </table>
 
 
                 </div>
@@ -57,4 +106,18 @@
         </section>
         <!-- /.content -->
     </div>
+@endsection
+@section('css')
+    <link rel="stylesheet" href="{{asset('admin/plugins/datatables/dataTables.bootstrap.css')}}">
+@endsection
+@section('js')
+    <script src="{{asset('admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('admin/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+    <script>
+        $(window).ready(function () {
+            $("#datatable").DataTable();
+        });
+
+
+    </script>
 @endsection

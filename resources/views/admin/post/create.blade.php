@@ -18,9 +18,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-primary">
-
+                    @include('admin.inc.message')
                         <!-- form start -->
-                        <form role="form">
+                        <form role="form" action="{{route('post.store')}}" method="post">
+                            @csrf
                             <div class="box-body">
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -70,9 +71,9 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body pad">
-                                    <form>
+
                                         <textarea name="body" class="textarea" placeholder="Place some text here" style="width: 100%; height: 400px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                    </form>
+
                                 </div>
                             </div>
                             <div class="box-footer">

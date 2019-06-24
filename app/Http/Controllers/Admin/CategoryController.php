@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\User\category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +16,11 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        return view('admin.category.index');
+        $cat = category::all();
+        return view('admin.category.index')
+            ->with([
+                'cats' => $cat
+            ]);
     }
 
     /**
@@ -25,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -36,7 +41,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'category'=>'required',
+            'slug'=>'required'
+        ]);
+        $cat = new category();
+        $cat->name = $request->category;
+        $cat->slug = $request->slug;
+        $cat->save();
+
+        return redirect()->route('category.index');
     }
 
     /**
@@ -58,7 +72,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        return "edit";
     }
 
     /**
@@ -81,6 +95,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cat = category::where('id',$id)->delete();
+        return redirect()->back();
     }
 }
