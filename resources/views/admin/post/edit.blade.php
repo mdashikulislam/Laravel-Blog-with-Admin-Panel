@@ -19,22 +19,23 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                     @include('admin.inc.message')
-                        <!-- form start -->
-                        <form role="form" action="{{route('post.store')}}" method="post">
+                    <!-- form start -->
+                        <form role="form" action="{{route('post.update',['id'=> $post->id])}}" method="post">
                             @csrf
+                            {{method_field('PUT')}}
                             <div class="box-body">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" placeholder="Title" name="title">
+                                        <input type="text" class="form-control" id="title" placeholder="Title" name="title" value="{{$post->title}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="subtitle">Sub Title</label>
-                                        <input type="text" class="form-control" id="subtitle" placeholder="Sub Title" name="subtitle">
+                                        <input type="text" class="form-control" id="subtitle" placeholder="Sub Title" name="subtitle" value="{{$post->subtitle}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="slug">Slug</label>
-                                        <input type="text" class="form-control" id="slug" placeholder="Slug" name="slug">
+                                        <input type="text" class="form-control" id="slug" placeholder="Slug" name="slug" value="{{$post->slug}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -47,7 +48,7 @@
                                     <br>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="status"> Publish
+                                            <input type="checkbox" name="status" @if($post->status == 1) checked @endif> Publish
                                         </label>
                                     </div>
                                 </div>
@@ -72,14 +73,13 @@
                                 <!-- /.box-header -->
                                 <div class="box-body pad">
 
-                                        <textarea name="body" class="textarea" placeholder="Place some text here" style="width: 100%; height: 400px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                    <textarea name="body" class="textarea" placeholder="Place some text here" style="width: 100%; height: 400px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{$post->body}}</textarea>
 
                                 </div>
                             </div>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="reset" class="btn btn-info">Reset</button>
-                                <a href="{{route('post.index')}}" class="btn btn-success">Back</a>
+                                <a href="{{route('post.index')}}"  class="btn btn-success">Back</a>
                             </div>
                         </form>
                     </div>

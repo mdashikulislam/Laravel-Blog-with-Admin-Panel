@@ -30,7 +30,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Post</h3>
-
+                    <a href="{{route('post.create')}}" class="btn btn-success col-lg-offset-5">Add Post</a>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fa fa-minus"></i></button>
@@ -38,6 +38,7 @@
                             <i class="fa fa-times"></i></button>
                     </div>
                 </div>
+                @include('admin.inc.message')
                 <div class="box-body">
                     <table id="datatable" class="table table-bordered table-striped">
                         <thead>
@@ -63,7 +64,18 @@
                                     <a href="{{route('post.edit',['id'=>$post->id])}}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                                 </td>
                                 <td>
-                                    <a href="" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <form action="{{route('post.destroy',['id'=>$post->id])}}" id="delete-data-{{$post->id}}" style="display: none;" method="post">
+                                        @csrf
+                                        {{method_field('DELETE')}}
+                                    </form>
+                                    <a href="" onclick="
+                                        if (confirm('Are you sure, want to delete this ?')){
+                                            event.preventDefault();
+                                            document.getElementById('delete-data-{{$post->id}}').submit();
+                                        } else {
+                                            event.preventDefault();
+                                        }
+                                    " class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
                                 </td>
                             </tr>
                         @endforeach

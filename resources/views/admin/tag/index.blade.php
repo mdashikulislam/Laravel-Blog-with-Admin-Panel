@@ -40,6 +40,7 @@
                             <i class="fa fa-times"></i></button>
                     </div>
                 </div>
+                @include('admin.inc.message')
                 <div class="box-body">
                     <table id="datatable" class="table table-bordered table-striped">
                         <thead>
@@ -58,7 +59,7 @@
                                 <td>{{$tag->name}}</td>
                                 <td>{{$tag->slug}}</td>
                                 <td>
-                                    <a href="{{route('tag.show',['id' => $tag->id])}}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a href="{{route('tag.edit',['id' => $tag->id])}}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                                 </td>
                                 <td>
                                     <form action="{{route('tag.destroy',['id'=>$tag->id])}}" method="post" style="display: none;" id="delete-form-{{$tag->id}}">

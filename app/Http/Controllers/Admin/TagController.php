@@ -39,7 +39,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        @$this->validate($request,[
+        $this->validate($request,[
             'tag'=>'required',
             'slug'=> 'required'
         ]);
@@ -69,7 +69,11 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tag = tag::where('id',$id)->first();
+        return view('admin.tag.edit')
+            ->with([
+                'tag'=>$tag
+            ]);
     }
 
     /**
@@ -81,7 +85,17 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'tag'=>'required',
+            'slug'=> 'required'
+        ]);
+        $tag = tag::find($id);
+        $tag->name = $request->tag;
+        $tag->slug = $request->slug;
+        $tag->save();
+        return redirect()->route('tag.index')->with([
+            'success' => 'Tag update Sucessfully'
+        ]);
     }
 
     /**

@@ -40,6 +40,7 @@
                             <i class="fa fa-times"></i></button>
                     </div>
                 </div>
+                @include('admin.inc.message')
                 <div class="box-body">
                     <table id="datatable" class="table table-bordered table-striped">
                         <thead>
