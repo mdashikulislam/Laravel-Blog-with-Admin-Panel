@@ -1,4 +1,7 @@
 @extends('admin.app')
+@section('css')
+    <link rel="stylesheet" href="{{asset('admin/plugins/select2/select2.min.css')}}">
+@endsection
 @section('maincontent')
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -38,17 +41,36 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group">
+                                    <br>
+                                    <div class="form-group pull-right">
                                         <label for="image">File input</label>
                                         <input type="file" id="image" name="image">
+                                    </div>
 
-
+                                    <div class="checkbox pull-left" >
+                                        <label>
+                                            <input type="checkbox" name="status" value="1"> Publish
+                                        </label>
                                     </div>
                                     <br>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="status"> Publish
-                                        </label>
+                                    <br>
+                                    <br>
+                                    <div class="form-group">
+                                        <label>Select Tag</label>
+                                        <select class="form-control select2" multiple="multiple" data-placeholder="Select Tag" style="width: 100%;" name="tag[]">
+                                            @foreach($tags as $tag)
+                                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                             @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Select Category</label>
+                                        <select class="form-control select2" multiple="multiple" data-placeholder="Select Category" style="width: 100%;" name="category[]">
+                                            @foreach($cats as $cat)
+                                                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
@@ -96,4 +118,8 @@
 @endsection
 @section('js')
     <script src="{{asset('admin/dist/js/pages/dashboard.js')}}"></script>
+    <script src="{{asset('admin/plugins/select2/select2.full.min.js')}}"></script>
+    <script>
+        $(".select2").select2();
+    </script>
 @endsection

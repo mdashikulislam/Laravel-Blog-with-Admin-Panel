@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\User\category;
 use App\Model\User\post;
+use App\Model\User\tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,7 +31,12 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.post.create');
+        $tag = tag::all();
+        $cat = category::all();
+        return view('admin.post.create')->with([
+            'cats'=>$cat,
+            'tags'=>$tag
+        ]);
     }
 
     /**
@@ -40,18 +47,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $this->validate($request,[
             'title'=>'required',
             'subtitle'=> 'required',
             'slug'=>'required',
             'body'=>'required',
+            'category'=>'required',
+            'tag'=>'required'
+
         ]);
         $post = new post();
         $post->title = $request->title;
         $post->subtitle = $request->subtitle;
         $post->slug = $request->slug;
         $post->body = $request->body;
+        $post->status = $request->status;
+
         $post->save();
+        $post->tags()->sync($request->category);
+        $post->categories()->sync($request->tag);
+
         return redirect()->route('post.index');
     }
 
@@ -75,9 +92,13 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = post::where('id',$id)->first();
+        $cats = category::all();
+        $tags = tag::all();
         return view('admin.post.edit')
             ->with([
-                'post' => $post
+                'post' => $post,
+                'cats' => $cats,
+                'tags'=> $tags
             ]);
     }
 
@@ -95,13 +116,19 @@ class PostController extends Controller
             'subtitle'=> 'required',
             'slug'=>'required',
             'body'=>'required',
+            'category'=>'required',
+            'tag'=>'required'
         ]);
+
         $post = post::find($id);
         $post->title = $request->title;
         $post->subtitle = $request->subtitle;
         $post->slug = $request->slug;
         $post->body = $request->body;
+        $post->status = $request->status;
         $post->save();
+        $post->tags()->sync($request->category);
+        $post->categories()->sync($request->tag);
         return redirect()->route('post.index')->with('success','Post update Successfully');
     }
 
