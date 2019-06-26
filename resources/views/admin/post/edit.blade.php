@@ -60,7 +60,13 @@
                                         <label>Select Tag</label>
                                         <select class="form-control select2" multiple="multiple" data-placeholder="Select Tag" style="width: 100%;" name="tag[]">
                                             @foreach($tags as $tag)
-                                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                                <option value="{{$tag->id}}"
+                                                    @foreach($post->categories as $postTag)
+                                                        @if($postTag->id == $tag->id)
+                                                            selected
+                                                        @endif
+                                                    @endforeach
+                                                >{{$tag->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -68,7 +74,13 @@
                                         <label>Select Category</label>
                                         <select class="form-control select2" multiple="multiple" data-placeholder="Select Category" style="width: 100%;" name="category[]">
                                             @foreach($cats as $cat)
-                                                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                                <option value="{{$cat->id}}"
+                                                        @foreach($post->tags as $postCat)
+                                                            @if($postCat->id == $cat->id)
+                                                                selected
+                                                            @endif
+                                                        @endforeach
+                                                >{{$cat->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
