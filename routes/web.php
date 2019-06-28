@@ -13,7 +13,7 @@
 //User route
 
 Route::group(['namespace'=>'User'],function (){
-    Route::get('/','HomeController@index');
+    Route::get('/','HomeController@index')->name('home');
     Route::get('/post/{post?}','PostController@index')->name('user.post');
 });
 

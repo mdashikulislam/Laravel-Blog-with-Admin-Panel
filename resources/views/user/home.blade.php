@@ -35,9 +35,22 @@
                 <!-- Pager -->
                 <ul class="pager">
                     <li class="next">
-                        <a href="#">Older Posts &rarr;</a>
+                        {{$posts->links()}}
                     </li>
                 </ul>
+                    <style>
+                        .pager{
+                            position: relative;
+                        }
+                        .pager ul li:first-child{
+                            position: absolute;
+                            left: 0;
+                        }
+                        .pager ul li:last-child{
+                            position: absolute;
+                            right: 0;
+                        }
+                    </style>
             </div>
         </div>
     </div>

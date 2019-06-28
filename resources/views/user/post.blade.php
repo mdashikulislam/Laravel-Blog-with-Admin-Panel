@@ -10,6 +10,8 @@
     {{$post->subtitle}}
 @endsection
 @section('maincontent')
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.3"></script>
     <!-- Post Content -->
     <article>
         <div class="container">
@@ -32,6 +34,7 @@
                             @endforeach
                         </p>
                     </div>
+                    <div class="fb-comments" data-href="{{Request::url()}}" data-width="" data-numposts="5"></div>
                 </div>
             </div>
         </div>
