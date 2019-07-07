@@ -7,7 +7,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Users</li>
+            <li class="active">Role</li>
         </ol>
     </section>
 @endsection
@@ -16,12 +16,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Users
+                Role
 
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Users</li>
+                <li class="active">Role</li>
             </ol>
         </section>
 
@@ -31,8 +31,8 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Users</h3>
-                    <a href="{{route('user.create')}}" class="col-lg-offset-5 btn btn-success">Add Tag</a>
+                    <h3 class="box-title">Role</h3>
+                    <a href="{{route('role.create')}}" class="col-lg-offset-5 btn btn-success">Add Role</a>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fa fa-minus"></i></button>
@@ -53,28 +53,28 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($users as $user)
+                        @foreach($roles as $role)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
-                                <td>{{$user->name}}</td>
+                                <td>{{$role->name}}</td>
 
                                 <td>
-                                    <a href="{{route('user.edit',['id' => $user->id])}}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a href="{{route('role.edit',['id' => $role->id])}}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                                 </td>
                                 <td>
-                                    <form action="{{route('user.destroy',['id'=>$user->id])}}" method="post" style="display: none;" id="delete-form-{{$user->id}}">
+                                    <form action="{{route('role.destroy',['id'=>$role->id])}}" method="post" style="display: none;" id="delete-form-{{$role->id}}">
                                         @csrf
                                         {{method_field('DELETE')}}
                                     </form>
-                                    <a href="" class="btn btn-danger" onclick="
-                                            if (confirm('Are you sure, want to delete this ?')){
-                                            event.preventDefault();
-                                            document.getElementById('delete-form-{{$user->id}}').submit();
-                                            }else {
-                                            event.preventDefault();
-                                            }
+                                        <a href="" class="btn btn-danger" onclick="
+                                                if (confirm('Are you sure, want to delete this ?')){
+                                                    event.preventDefault();
+                                                    document.getElementById('delete-form-{{$role->id}}').submit();
+                                                }else {
+                                                    event.preventDefault();
+                                                }
 
-                                            "><span class="glyphicon glyphicon-trash"></span></a>
+                                                "><span class="glyphicon glyphicon-trash"></span></a>
 
                                 </td>
                             </tr>
@@ -87,7 +87,6 @@
                         <tr>
                             <th>SL NO</th>
                             <th>Name</th>
-
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>

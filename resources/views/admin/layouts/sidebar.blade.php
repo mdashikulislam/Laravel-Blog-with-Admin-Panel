@@ -30,6 +30,7 @@
             <li ><a href="{{route('category.index')}}" ><i class="fa fa-circle-o text-aqua"></i> <span>Categories</span></a></li>
             <li><a href="{{route('tag.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Tags</span></a></li>
             <li><a href="{{route('user.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Users</span></a></li>
+            <li><a href="{{route('role.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Role</span></a></li>
         </ul>
     </section>
     <!-- /.sidebar -->

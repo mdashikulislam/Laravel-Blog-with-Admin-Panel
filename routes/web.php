@@ -35,6 +35,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'backend'], function () {
     //User Route
     Route::resource('/user', 'UserController')->middleware('auth:admin');
 
+    //Role Route
+    Route::resource('/role','RoleController')->middleware('auth:admin');
+
     //Admin Login
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\LoginController@login');
