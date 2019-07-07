@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -48,4 +50,21 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $exception);
     }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()){
+            return \response()->json(['error'=>'Unauthenticated.',Response::HTTP_UNAUTHORIZED]);
+        }
+        $guard = array_get($exception->guards(), 0);
+        switch ($guard){
+            case 'admin':
+                return redirect()->guest(route('admin.login'));
+                break;
+            default:
+                return redirect()->guest(route('login'));
+                break;
+        }
+
+   }
 }

@@ -1,7 +1,9 @@
 @extends('user.app')
-
+@section('css')
+    <link rel="stylesheet" href="{{asset('user/css/prism.css')}}">
+    @endsection
 @section('bg-image')
-    {{asset('user/img/post-bg.jpg')}}
+    {{Storage::disk('local')->url($post->image)}}
     @endsection
 @section('title')
     {{$post->title}}
@@ -21,24 +23,32 @@
                         <p class="pull-left" ><strong>Created at : </strong>{{$post->created_at->diffForHumans()}}</p>
                         <p class="pull-right" ><strong>Category :</strong>
                             @foreach($post->categories as $category)
-                                <small style="margin-right: 10px;">{{$category->name}}</small>
-                                @endforeach
+                                <a href="{{route('category',['slug'=>$category->slug])}}" class="btn btn-success">
+                                    <small style="margin-right: 10px;">{{$category->name}}</small>
+                                </a>
+                            @endforeach
                         </p>
                     </div>
                     {!! htmlspecialchars_decode($post->body)  !!}
                     <div class="down">
                         <h3>Tags</h3>
-                        <p>
-                            @foreach($post->tags as $tag)
-                                <small style="margin-right: 10px;border: 1px solid #ddd; border-radius: 5px; background: gray;color: #fff;padding: 5px;">{{$tag->name}}</small>
-                            @endforeach
-                        </p>
+
+                            <p>
+                                @foreach($post->tags as $tag)
+                                    <a href="{{route('tag',['tag'=>$tag->slug])}}" class="btn btn-info">
+                                        <small style="margin-right: 10px;">{{$tag->name}}</small>
+                                    </a>
+                                @endforeach
+                            </p>
+
                     </div>
                     <div class="fb-comments" data-href="{{Request::url()}}" data-width="" data-numposts="5"></div>
                 </div>
             </div>
         </div>
     </article>
-
     <hr>
-    @endsection
+@endsection
+@section('js')
+    <script src="{{asset('user/js/prism.js')}}"></script>
+@endsection

@@ -23,7 +23,7 @@
                     <div class="box box-primary">
                     @include('admin.inc.message')
                     <!-- form start -->
-                        <form role="form" action="{{route('post.update',['id'=> $post->id])}}" method="post">
+                        <form role="form" action="{{route('post.update',['id'=> $post->id])}}" method="post" enctype="multipart/form-data">
                             @csrf
                             {{method_field('PUT')}}
                             <div class="box-body">
@@ -45,7 +45,7 @@
                                     <br>
                                     <div class="form-group pull-right">
                                         <label for="image">File input</label>
-                                        <input type="file" id="image" name="image">
+                                        <input type="file" id="image" name="image" >
                                     </div>
 
                                     <div class="checkbox pull-left" >
@@ -106,7 +106,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body pad">
 
-                                    <textarea name="body" class="textarea" placeholder="Place some text here" style="width: 100%; height: 400px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{$post->body}}</textarea>
+                                    <textarea name="body" id="editor1"  placeholder="Place some text here" style="width: 100%; height: 600px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{$post->body}}</textarea>
 
                                 </div>
                             </div>

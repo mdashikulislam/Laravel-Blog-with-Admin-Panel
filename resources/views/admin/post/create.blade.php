@@ -23,7 +23,7 @@
                     <div class="box box-primary">
                     @include('admin.inc.message')
                         <!-- form start -->
-                        <form role="form" action="{{route('post.store')}}" method="post">
+                        <form role="form" action="{{route('post.store')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="box-body">
                                 <div class="col-lg-6">
@@ -94,7 +94,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body pad">
 
-                                        <textarea name="body" class="textarea" placeholder="Place some text here" style="width: 100%; height: 400px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                        <textarea name="body" class="textarea" placeholder="Place some text here" style="width: 100%; height: 400px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" id="editor1"></textarea>
 
                                 </div>
                             </div>

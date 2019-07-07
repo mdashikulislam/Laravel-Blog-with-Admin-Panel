@@ -1,5 +1,7 @@
 <?php
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,25 +13,39 @@
 |
 */
 //User route
-
-Route::group(['namespace'=>'User'],function (){
-    Route::get('/','HomeController@index')->name('home');
-    Route::get('/post/{post?}','PostController@index')->name('user.post');
+Route::group(['namespace' => 'User'], function () {
+    Route::get('/', 'HomeController@index')->name('user.home');
+    Route::get('/post/{post?}', 'PostController@index')->name('user.post');
+    Route::get('/post/tag/{tag}', 'HomeController@tag')->name('tag');
+    Route::get('/post/category/{category}', 'HomeController@category')->name('category');
 });
 
 
 //Admin Route
 
-Route::group(['namespace' => 'Admin','prefix'=>'backend'],function (){
+Route::group(['namespace' => 'Admin', 'prefix' => 'backend'], function () {
 
-    Route::get('/home','HomeController@index')->name('admin.home');
+    Route::get('/home', 'HomeController@index')->name('admin.home')->middleware('auth:admin');
     //Post Route
-    Route::resource('/post','PostController');
+    Route::resource('/post', 'PostController')->middleware('auth:admin');
     //Tag Route
-    Route::resource('/tag','TagController');
+    Route::resource('/tag', 'TagController')->middleware('auth:admin');
     //Category Route
-    Route::resource('/category','CategoryController');
+    Route::resource('/category', 'CategoryController')->middleware('auth:admin');
     //User Route
-    Route::resource('/user','UserController');
+    Route::resource('/user', 'UserController')->middleware('auth:admin');
+
+    //Admin Login
+    Route::get('/login', 'Auth\LoginController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'Auth\LoginController@login');
+    Route::post('/logout', 'Auth\LoginController@logout')->name('admin.logout');
+
 });
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/tst',function (){
+//    return "as";
+//})->middleware('auth:admin');

@@ -55,11 +55,17 @@ class PostController extends Controller
             'slug'=>'required',
             'body'=>'required',
             'category'=>'required',
-            'tag'=>'required'
+            'tag'=>'required',
+            'image'=>'required'
 
         ]);
+        if ($request->hasFile('image')){
+
+           $imageName = $request->image->store('public');
+        }
         $post = new post();
         $post->title = $request->title;
+       $post->image = $imageName;
         $post->subtitle = $request->subtitle;
         $post->slug = $request->slug;
         $post->body = $request->body;
@@ -118,19 +124,35 @@ class PostController extends Controller
             'slug'=>'required',
             'body'=>'required',
             'category'=>'required',
-            'tag'=>'required'
-        ]);
+            'tag'=>'required',
 
-        $post = post::find($id);
-        $post->title = $request->title;
-        $post->subtitle = $request->subtitle;
-        $post->slug = $request->slug;
-        $post->body = $request->body;
-        $post->status = $request->status;
-        $post->save();
-        $post->tags()->sync($request->category);
-        $post->categories()->sync($request->tag);
-        return redirect()->route('post.index')->with('success','Post update Successfully');
+        ]);
+        if ($request->hasFile('image')){
+            $imageName = $request->image->store('public');
+            $post = post::find($id);
+            $post->title = $request->title;
+            $post->image = $imageName;
+            $post->subtitle = $request->subtitle;
+            $post->slug = $request->slug;
+            $post->body = $request->body;
+            $post->status = $request->status;
+            $post->save();
+            $post->tags()->sync($request->category);
+            $post->categories()->sync($request->tag);
+            return redirect()->route('post.index')->with('success','Post update Successfully');
+        }else{
+            $post = post::find($id);
+            $post->title = $request->title;
+            $post->subtitle = $request->subtitle;
+            $post->slug = $request->slug;
+            $post->body = $request->body;
+            $post->status = $request->status;
+            $post->save();
+            $post->tags()->sync($request->category);
+            $post->categories()->sync($request->tag);
+            return redirect()->route('post.index')->with('success','Post update Successfully');
+        }
+
     }
 
     /**
@@ -142,7 +164,6 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = post::where('id',$id)->delete();
-
         return redirect()->back()->with('success','Post delete successfully');
     }
 }
