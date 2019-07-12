@@ -26,11 +26,12 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li ><a href="{{route('post.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Posts</span></a></li>
-            <li ><a href="{{route('category.index')}}" ><i class="fa fa-circle-o text-aqua"></i> <span>Categories</span></a></li>
-            <li><a href="{{route('tag.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Tags</span></a></li>
-            <li><a href="{{route('user.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Users</span></a></li>
-            <li><a href="{{route('role.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Role</span></a></li>
+            <li class="{{Request::route()->getName() == 'post.index' ? 'active':''}}"><a href="{{route('post.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Posts</span></a></li>
+            <li class="{{Request::route()->getName() == 'category.index' ? 'active':''}}" ><a href="{{route('category.index')}}" ><i class="fa fa-circle-o text-aqua"></i> <span>Categories</span></a></li>
+            <li class="{{Request::route()->getName() == 'tag.index' ? 'active':''}}"><a href="{{route('tag.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Tags</span></a></li>
+            <li class="{{Request::route()->getName() == 'user.index' ? 'active':''}}"><a href="{{route('user.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Users</span></a></li>
+            <li class="{{Request::route()->getName() == 'role.index' ? 'active':''}}"><a href="{{route('role.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Role</span></a></li>
+            <li class="{{Request::route()->getName() == 'permission.index' ? 'active':''}}"><a href="{{route('permission.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Permission</span></a></li>
         </ul>
     </section>
     <!-- /.sidebar -->

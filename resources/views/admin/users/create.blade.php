@@ -32,6 +32,10 @@
                                         <input type="email" class="form-control" id="email" placeholder="Email" name="email">
                                     </div>
                                     <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" class="form-control" id="phone" placeholder="Phone" name="phone">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="password">Password</label>
                                         <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                                     </div>
@@ -39,15 +43,22 @@
                                         <label for="confirm_password">Confirm Password</label>
                                         <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="role">Select Role</label>
-                                        <select name="role" id="role" class="form-control">
-                                            <option value="">Editor</option>
-                                            <option value="">Publisher</option>
-                                            <option value="">Writer</option>
-                                        </select>
+                                    <div class="form-group" style="display: block;">
+                                        <div style="display: block;">
+                                            <label for="">Assign Role</label>
+                                        </div>
+
+                                       @foreach($roles as $role)
+                                            <div class="col-md-3">
+                                                <label>
+                                                    <input type="checkbox" name="status[]" value="{{$role->id}}"> {{$role->name}}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                        
                                     </div>
-                                    <div class="form-group">
+
+                                    <div class="form-group col-md-12">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                         <button type="reset" class="btn btn-info">Reset</button>
                                         <a href="{{route('user.index')}}" class="btn btn-success">Back</a>

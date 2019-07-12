@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Admin\Admin;
+use App\Model\Admin\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,7 +29,18 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $roles = Role::all();
+        if ($roles->count() > 0){
+            return view('admin.users.create')
+                ->with([
+                    'roles'=>$roles
+                ]);
+        }else{
+            return redirect()->route('role.create')->with([
+              'success'=>'Create Role First'
+            ]);
+        }
+
     }
 
     /**
@@ -39,7 +51,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//       $this->validate($request,[
+//           'name'=>'required',
+//           'email' => 'required|unique:admins',
+//           'password'=>'required',
+//           'confirm_password'=>'required',
+//           'phone'=>'required',
+//           'status'=>'required'
+//       ]);
+//      $user =new  Admin();
+//      $user->name = $request->name;
+//      $user->email = $request->email;
+//      $user->password = $request->password;
+//      $user->phone = $request->phone;
+//      $user->status = $request->status;
+//      if ($request->password === $request->confirm_password){
+//        $user->save();
+//        return redirect()->route('user.index')->with([
+//            'success'=>'User Create Successful'
+//        ]);
+//      }else{
+//          return redirect()->back();
+//      }
     }
 
     /**
