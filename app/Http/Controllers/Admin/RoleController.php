@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Admin\Permission;
 use App\Model\Admin\Role;
 use App\Model\User\tag;
 use Illuminate\Http\Request;
@@ -9,6 +10,12 @@ use App\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:admin.user.role');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +36,11 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.role.create');
+        $permissions = Permission::all();
+        return view('admin.role.create')
+            ->with([
+                'permissions'=>$permissions
+            ]);
     }
 
     /**
@@ -41,11 +52,13 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name'=>'required|max:20|unique:roles'
+            'name'=>'required|max:20|unique:roles',
+            'permission'=>'required'
         ]);
         $role = new Role();
         $role->name = $request->name;
         $role->save();
+        $role->permissions()->sync($request->permission);
         return redirect()->route('role.index')->with('success','Role Crerate Successfully');
     }
 
@@ -68,10 +81,12 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        $permissions = Permission::all();
         $edit = Role::where('id',$id)->first();
         return view('admin.role.edit')
             ->with([
-                'edit'=>$edit
+                'edit'=>$edit,
+                'permissions'=>$permissions
             ]);
     }
 
@@ -86,11 +101,13 @@ class RoleController extends Controller
     {
 
         $this->validate($request,[
-            'name'=>'required|max:20'
+            'name'=>'required|max:20',
+            'permission'=>'required'
         ]);
         $role = Role::find($id);
         $role->name = $request->name;
         $role->save();
+        $role->permissions()->sync($request->permission);
         return redirect()->route('role.index')->with('success','Role Update Successfully');
     }
 

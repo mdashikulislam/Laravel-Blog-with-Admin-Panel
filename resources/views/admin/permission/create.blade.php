@@ -26,7 +26,15 @@
                                         <label for="tag">Permission Name</label>
                                         <input type="text" class="form-control" id="tag" placeholder="Permission Name" name="name">
                                     </div>
-
+                                    <div class="form-group">
+                                        <label for="for">Permission For</label>
+                                        <select name="for" id="for" class="form-control">
+                                            <option selected disabled="">Select Permission for</option>
+                                            @foreach($perNames as $perName)
+                                                <option value="{{$perName->name}}">{{$perName->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                         <button type="reset" class="btn btn-info">Reset</button>

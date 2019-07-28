@@ -8,7 +8,7 @@
                 <img src="{{asset('admin/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p>{{Auth::user()->name}}</p>
 
             </div>
         </div>
@@ -26,12 +26,21 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="{{Request::route()->getName() == 'post.index' ? 'active':''}}"><a href="{{route('post.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Posts</span></a></li>
+            <li class="{{Request::route()->getName() == 'post.index'  ? 'active':''}}"><a href="{{route('post.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Posts</span></a></li>
+            @can('posts.category',Auth::user())
             <li class="{{Request::route()->getName() == 'category.index' ? 'active':''}}" ><a href="{{route('category.index')}}" ><i class="fa fa-circle-o text-aqua"></i> <span>Categories</span></a></li>
-            <li class="{{Request::route()->getName() == 'tag.index' ? 'active':''}}"><a href="{{route('tag.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Tags</span></a></li>
+            @endcan
+            @can('posts.tag',Auth::user())
+                <li class="{{Request::route()->getName() == 'tag.index' ? 'active':''}}"><a href="{{route('tag.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Tags</span></a></li>
+            @endcan
+
             <li class="{{Request::route()->getName() == 'user.index' ? 'active':''}}"><a href="{{route('user.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Users</span></a></li>
+            @can('admin.user.role',Auth::user())
             <li class="{{Request::route()->getName() == 'role.index' ? 'active':''}}"><a href="{{route('role.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Role</span></a></li>
+            @endcan
+            @can('admin.user.permission',Auth::user())
             <li class="{{Request::route()->getName() == 'permission.index' ? 'active':''}}"><a href="{{route('permission.index')}}"><i class="fa fa-circle-o text-aqua"></i> <span>Permission</span></a></li>
+            @endcan
         </ul>
     </section>
     <!-- /.sidebar -->

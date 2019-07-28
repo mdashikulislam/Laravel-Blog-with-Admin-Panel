@@ -53,12 +53,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'backend'], function () {
 
 });
 
-
-
-
-
-
-
 //Route::get('/tst',function (){
 //    return "as";
 //})->middleware('auth:admin');

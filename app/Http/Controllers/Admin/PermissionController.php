@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Admin\Permission;
+use App\Model\Admin\PermissionName;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
+        public function __construct()
+        {
+            $this->middleware('can:admin.user.permission');
+        }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +35,10 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('admin.permission.create');
+        $perName = PermissionName::all();
+        return view('admin.permission.create')->with([
+            'perNames'=>$perName
+        ]);
     }
 
     /**
@@ -41,11 +50,13 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name'=>'required|max:20|unique:permissions'
+            'name'=>'required|max:20|unique:permissions',
+            'for'=>'required'
         ]);
 
         $permission = new Permission;
         $permission->name = $request->name;
+        $permission->for = $request->for;
         $permission->save();
 
         return redirect()->route('permission.index')->with('success','Permission Create Successfully');
@@ -71,9 +82,11 @@ class PermissionController extends Controller
     public function edit(Permission $permission)
     {
         $permissions = Permission::where('id',$permission->id)->first();
+        $perName = PermissionName::all();
         return view('admin.permission.edit')
             ->with([
-                'permissions'=>$permissions
+                'permissions'=>$permissions,
+                'perNames'=>$perName
             ]);
     }
 
@@ -87,11 +100,13 @@ class PermissionController extends Controller
     public function update(Request $request, Permission $permission)
     {
         $this->validate($request,[
-            'name'=>'required|max:20'
+            'name'=>'required|max:20',
+            'for'=>'required'
         ]);
 
         $permission = Permission::find($permission->id);
         $permission->name = $request->name;
+        $permission->for = $request->for;
         $permission->save();
 
         return redirect()->route('permission.index')->with('success','Permission Update Successfully');

@@ -29,17 +29,22 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
-        if ($roles->count() > 0){
-            return view('admin.users.create')
-                ->with([
-                    'roles'=>$roles
+        if (\Auth::user()->can('admin.user.create')){
+            $roles = Role::all();
+            if ($roles->count() > 0){
+                return view('admin.users.create')
+                    ->with([
+                        'roles'=>$roles
+                    ]);
+            }else{
+                return redirect()->route('role.create')->with([
+                    'success'=>'Create Role First'
                 ]);
-        }else{
-            return redirect()->route('role.create')->with([
-              'success'=>'Create Role First'
-            ]);
+            }
         }
+        return redirect()->route('admin.home');
+
+
 
     }
 
@@ -51,28 +56,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-//       $this->validate($request,[
-//           'name'=>'required',
-//           'email' => 'required|unique:admins',
-//           'password'=>'required',
-//           'confirm_password'=>'required',
-//           'phone'=>'required',
-//           'status'=>'required'
-//       ]);
-//      $user =new  Admin();
-//      $user->name = $request->name;
-//      $user->email = $request->email;
-//      $user->password = $request->password;
-//      $user->phone = $request->phone;
-//      $user->status = $request->status;
-//      if ($request->password === $request->confirm_password){
-//        $user->save();
-//        return redirect()->route('user.index')->with([
-//            'success'=>'User Create Successful'
-//        ]);
-//      }else{
-//          return redirect()->back();
-//      }
+        $this->validate($request,[
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'phone'=>['required'],
+        ]);
+        $request->status? : $request['status']=0;
+        $request['password'] = bcrypt($request->password);
+        $user = Admin::create($request->all());
+        $user->roles()->sync($request->role);
+        return redirect()->route('user.index')->with('success','User added Successfully');
+
     }
 
     /**
@@ -94,7 +89,18 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        if (\Auth::user()->can('admin.user.update')){
+            $roles = Role::all();
+            $user = Admin::find($id);
+
+            return view('admin.users.edit')
+                ->with([
+                    'roles'=>$roles,
+                    'user'=>$user
+                ]);
+        }
+        return redirect()->route('admin.home');
+
     }
 
     /**
@@ -106,7 +112,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'phone'=>['required'],
+        ]);
+        $request->status? : $request['status']=0;
+        $user = Admin::where('id',$id)->update($request->except('_token','_method','role'));
+        Admin::find($id)->roles()->sync($request->role);
+        return redirect()->route('user.index')->with('success','User Update Successfully');
     }
 
     /**
@@ -117,6 +131,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user  = Admin::where('id',$id)->delete();
+        return redirect()->route('user.index')->with('success','User Delete Successfully');
     }
 }

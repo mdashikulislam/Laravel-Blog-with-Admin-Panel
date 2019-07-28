@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Admin\Admin;
 use App\Model\User\tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class TagController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:posts.tag');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +65,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

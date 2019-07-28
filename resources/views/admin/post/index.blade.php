@@ -30,7 +30,11 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Post</h3>
-                    <a href="{{route('post.create')}}" class="btn btn-success col-lg-offset-5">Add Post</a>
+                    @can('posts.create',Auth::user())
+                        <a href="{{route('post.create')}}" class="btn btn-success col-lg-offset-5">Add Post</a>
+                    @endcan
+
+
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fa fa-minus"></i></button>
@@ -48,8 +52,12 @@
                             <th>Sub Title</th>
                             <th>Slug</th>
                             <th>Body</th>
-                            <th>Edit</th>
+                            @can('posts.update',Auth::user())
+                                <th>Edit</th>
+                            @endcan
+                            @can('posts.delete',Auth::user())
                             <th>Delete</th>
+                            @endcan
                         </tr>
                         </thead>
                         <tbody>
@@ -60,9 +68,12 @@
                                 <td>{{$post->subtitle}}</td>
                                 <td> {{$post->slug}}</td>
                                 <td>{{$post->body}}</td>
+                                @can('posts.update',Auth::user())
                                 <td>
                                     <a href="{{route('post.edit',['id'=>$post->id])}}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                                 </td>
+                                @endcan
+                                @can('posts.delete',Auth::user())
                                 <td>
                                     <form action="{{route('post.destroy',['id'=>$post->id])}}" id="delete-data-{{$post->id}}" style="display: none;" method="post">
                                         @csrf
@@ -77,6 +88,7 @@
                                         }
                                     " class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
                                 </td>
+                                    @endcan
                             </tr>
                         @endforeach
                         </tbody>
@@ -87,8 +99,12 @@
                             <th>Sub Title</th>
                             <th>Slug</th>
                             <th>Body</th>
+                            @can('posts.update',Auth::user())
                             <th>Edit</th>
+                            @endcan
+                            @can('posts.delete',Auth::user())
                             <th>Delete</th>
+                            @endcan
                         </tr>
                         </tfoot>
                     </table>

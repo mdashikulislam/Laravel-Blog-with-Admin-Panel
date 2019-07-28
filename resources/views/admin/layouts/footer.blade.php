@@ -2,7 +2,7 @@
     <div class="pull-right hidden-xs">
         <b>Version</b> 2.3.8
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="">Almsaeed Studio</a>.</strong> All rights
+    <strong>Copyright &copy; 2016-{{\Carbon\Carbon::now()->year}} <a href="{{route('admin.home')}}">Error Technology</a>.</strong> All rights
     reserved.
 </footer>
 <!-- jQuery 2.2.3 -->
@@ -42,7 +42,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 {{--<script src="//cdn.ckeditor.com/4.12.1/full/ckeditor.js"></script>--}}
 <!-- AdminLTE for demo purposes -->
-<script src="{{asset('webadmin/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('admin/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('admin/dist/js/demo.js')}}"></script>
 <script>
     $(function () {

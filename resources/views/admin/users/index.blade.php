@@ -32,7 +32,9 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Users</h3>
+                    @can('admin.user.create',Auth::user())
                     <a href="{{route('user.create')}}" class="col-lg-offset-5 btn btn-success">Add Users</a>
+                    @endcan
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fa fa-minus"></i></button>
@@ -47,8 +49,16 @@
                         <tr>
                             <th>SL NO</th>
                             <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            @can('admin.user.update',Auth::user())
                             <th>Edit</th>
-                            <th>Delete</th>
+                            @endcan
+                            @can('admin.user.delete',Auth::user())
+                                <th>Delete</th>
+                            @endcan
+
                         </tr>
                         </thead>
                         <tbody>
@@ -56,10 +66,19 @@
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
                                 <td>{{$user->name}}</td>
-
+                                <td>{{$user->email}}</td>
+                                <td>
+                                    @foreach($user->roles as $role)
+                                        {{$role->name}},
+                                    @endforeach
+                                </td>
+                                <td><label style="margin-bottom: 0;padding: 5px;" class="@if($user->status == 1) alert alert-success @else alert  alert-danger @endif">{{$user->status? 'Active':'Not Active'}}</label></td>
+                                @can('admin.user.update',Auth::user())
                                 <td>
                                     <a href="{{route('user.edit',['id' => $user->id])}}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                                 </td>
+                                @endcan
+                                @can('admin.user.delete',Auth::user())
                                 <td>
                                     <form action="{{route('user.destroy',['id'=>$user->id])}}" method="post" style="display: none;" id="delete-form-{{$user->id}}">
                                         @csrf
@@ -76,6 +95,7 @@
                                             "><span class="glyphicon glyphicon-trash"></span></a>
 
                                 </td>
+                                @endcan
                             </tr>
                         @endforeach
 
@@ -86,9 +106,15 @@
                         <tr>
                             <th>SL NO</th>
                             <th>Name</th>
-
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            @can('admin.user.update',Auth::user())
+                                <th>Edit</th>
+                            @endcan
+                            @can('admin.user.delete',Auth::user())
+                                <th>Delete</th>
+                            @endcan
                         </tr>
                         </tfoot>
                     </table>

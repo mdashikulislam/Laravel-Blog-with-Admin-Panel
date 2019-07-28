@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Admin\Admin;
 use App\Model\User\category;
 use App\Model\User\post;
 use App\Model\User\tag;
@@ -18,6 +19,7 @@ class PostController extends Controller
     public function index()
     {
         $post = post::all();
+
         return view('admin.post.index')
             ->with([
                 'posts' => $post
@@ -31,12 +33,18 @@ class PostController extends Controller
      */
     public function create()
     {
-        $tag = tag::all();
-        $cat = category::all();
-        return view('admin.post.create')->with([
-            'cats'=>$cat,
-            'tags'=>$tag
-        ]);
+        if (\Auth::user()->can('posts.create')){
+            $tag = tag::all();
+            $cat = category::all();
+            return view('admin.post.create')->with([
+                'cats'=>$cat,
+                'tags'=>$tag
+            ]);
+        }
+
+        return  redirect()->route('admin.home');
+
+
     }
 
     /**
@@ -60,12 +68,11 @@ class PostController extends Controller
 
         ]);
         if ($request->hasFile('image')){
-
            $imageName = $request->image->store('public');
         }
         $post = new post();
         $post->title = $request->title;
-       $post->image = $imageName;
+        $post->image = $imageName;
         $post->subtitle = $request->subtitle;
         $post->slug = $request->slug;
         $post->body = $request->body;
@@ -97,16 +104,20 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = post::with('categories','tags')->where('id',$id)->first();
-        $cats = category::all();
-        $tags = tag::all();
+        if (\Auth::user()->can('posts.update')){
+            $post = post::with('categories','tags')->where('id',$id)->first();
+            $cats = category::all();
+            $tags = tag::all();
 
-        return view('admin.post.edit')
-            ->with([
-                'post' => $post,
-                'cats' => $cats,
-                'tags'=> $tags
-            ]);
+            return view('admin.post.edit')
+                ->with([
+                    'post' => $post,
+                    'cats' => $cats,
+                    'tags'=> $tags
+                ]);
+        }
+        return  redirect()->route('admin.home');
+
     }
 
     /**
@@ -163,7 +174,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = post::where('id',$id)->delete();
-        return redirect()->back()->with('success','Post delete successfully');
+        if (\Auth::user()->can('posts.delete')){
+            $post = post::where('id',$id)->delete();
+            return redirect()->back()->with('success','Post delete successfully');
+        }
+        return  redirect()->route('admin.home');
     }
 }

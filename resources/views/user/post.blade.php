@@ -3,8 +3,10 @@
     <link rel="stylesheet" href="{{asset('user/css/prism.css')}}">
     @endsection
 @section('bg-image')
-    {{Storage::disk('local')->url($post->image)}}
-    @endsection
+{{--    {{Storage::disk('local')->url($post->image)}}--}}
+
+    {{asset('storage/'.$post->image)}}
+@endsection
 @section('title')
     {{$post->title}}
 @endsection
