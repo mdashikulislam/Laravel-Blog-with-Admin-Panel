@@ -24,6 +24,10 @@ Route::group(['namespace' => 'User'], function () {
     Route::get('/post/{post?}', 'PostController@index')->name('user.post');
     Route::get('/post/tag/{tag}', 'HomeController@tag')->name('tag');
     Route::get('/post/category/{category}', 'HomeController@category')->name('category');
+
+    //Vue Route
+
+    Route::post('/getPost','PostController@getAllPost');
 });
 
 
@@ -52,7 +56,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'backend'], function () {
     Route::post('/logout', 'Auth\LoginController@logout')->name('admin.logout');
 
 });
-
+Route::get('users',function (){
+    return Auth::user()->name;
+})->middleware('auth:admin');
 //Route::get('/tst',function (){
 //    return "as";
 //})->middleware('auth:admin');

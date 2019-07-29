@@ -19,7 +19,7 @@
     <!-- Post Content -->
     <article>
         <div class="container">
-            <div class="row">
+            <div class="row" >
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="uper" style="overflow: hidden">
                         <p class="pull-left" ><strong>Created at : </strong>{{$post->created_at->diffForHumans()}}</p>

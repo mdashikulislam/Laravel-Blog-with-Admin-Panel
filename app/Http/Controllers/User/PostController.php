@@ -15,4 +15,8 @@ class PostController extends Controller
                 'post'=>$post
             ]);
     }
+
+    public function getAllPost(){
+       return $post = post::where('status',1)->orderBy('created_at','DESC')->paginate(5);
+    }
 }
