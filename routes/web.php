@@ -28,6 +28,7 @@ Route::group(['namespace' => 'User'], function () {
     //Vue Route
 
     Route::post('/getPost','PostController@getAllPost');
+    Route::post('/savelike','PostController@savelike');
 });
 
 

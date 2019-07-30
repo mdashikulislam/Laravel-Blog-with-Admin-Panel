@@ -58,14 +58,16 @@
 {{--                    @endif--}}
 {{--                    @endforeach--}}
 
-
-                    <posts
-                        v-for="value in blog"
-                        :title="value.title"
-                        :subtitle="value.subtitle"
-                        :created_at="value.created_at"
-                        :key=value.key
-                    ></posts>
+                <posts
+                    v-for="value in blog"
+                    :title=value.title
+                    :subtitle=value.subtitle
+                    :created_at = value.created_at
+                    :key=value.index
+                    :postid=value.id
+                    :likes = value.likes.length
+                    login="{{Auth::check()}}"
+                ></posts>
                 <!-- Pager -->
                 <ul class="pager">
                     <li class="next">
@@ -74,10 +76,9 @@
                 </ul>
             </div>
         </div>
+
     </div>
-
     <hr>
-
 @endsection
 @section('js')
     <script src="{{asset('js/app.js')}}"></script>
