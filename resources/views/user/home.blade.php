@@ -67,6 +67,7 @@
                     :postid=value.id
                     :likes = value.likes.length
                     login="{{Auth::check()}}"
+                    :slug=value.slug
                 ></posts>
                 <!-- Pager -->
                 <ul class="pager">

@@ -35,4 +35,9 @@ class post extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    public function getSlugAttribute($value)
+    {
+        return route('user.post',$value);
+    }
 }

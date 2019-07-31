@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //User route
 Route::group(['namespace' => 'User'], function () {
     Route::get('/', 'HomeController@index')->name('user.home');
-    Route::get('/post/{post?}', 'PostController@index')->name('user.post');
+    Route::get('/post/{post}', 'PostController@index')->name('user.post');
     Route::get('/post/tag/{tag}', 'HomeController@tag')->name('tag');
     Route::get('/post/category/{category}', 'HomeController@category')->name('category');
 

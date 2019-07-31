@@ -21,9 +21,17 @@ class PostController extends Controller
        return $post = post::with('likes')->where('status',1)->orderBy('created_at','DESC')->paginate(5);
     }
     public function savelike(Request $request){
-        $like = new Like();
-        $like->user_id = \Auth::id();
-        $like->post_id = $request->id;
-        $like->save();
+
+        $likeCount = Like::where(['user_id'=>\Auth::id(),'post_id'=>$request->id])->first();
+        if ($likeCount){
+            Like::where(['user_id'=>\Auth::id(),'post_id'=>$request->id])->delete();
+            return 'deleted';
+        }else{
+            $like = new Like();
+            $like->user_id = \Auth::id();
+            $like->post_id = $request->id;
+            $like->save();
+        }
+
     }
 }

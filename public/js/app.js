@@ -1748,13 +1748,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       likeCount: 0
     };
   },
-  props: ['title', 'subtitle', 'created_at', 'postid', 'login', 'likes'],
+  props: ['title', 'subtitle', 'created_at', 'postid', 'login', 'likes', 'slug'],
   created: function created() {
     this.likeCount = this.likes;
   },
@@ -1766,7 +1769,12 @@ __webpack_require__.r(__webpack_exports__);
         axios.post('/savelike', {
           id: this.postid
         }).then(function (response) {
-          _this.likeCount += 1; // this.blog = response.data.data
+          if (response.data == 'deleted') {
+            _this.likeCount -= 1;
+          } else {
+            _this.likeCount += 1;
+          } // this.blog = response.data.data
+
 
           console.log(response);
         })["catch"](function (error) {
@@ -37123,7 +37131,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "post-preview" }, [
-    _c("a", { attrs: { href: "" } }, [
+    _c("a", { attrs: { href: _vm.slug } }, [
       _c("h2", { staticClass: "post-title" }, [
         _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
       ]),
@@ -37151,7 +37159,12 @@ var render = function() {
         [
           _c("small", [_vm._v(_vm._s(_vm.likeCount) + " ")]),
           _vm._v(" "),
-          _c("i", { staticClass: "fa fa-thumbs-up" })
+          _vm.likeCount == 0
+            ? _c("i", { staticClass: "fa fa-thumbs-up" })
+            : _c("i", {
+                staticClass: "fa fa-thumbs-up",
+                staticStyle: { color: "green" }
+              })
         ]
       )
     ])

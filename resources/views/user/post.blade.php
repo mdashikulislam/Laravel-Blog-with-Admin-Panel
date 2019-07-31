@@ -22,7 +22,7 @@
             <div class="row" >
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="uper" style="overflow: hidden">
-                        <p class="pull-left" ><strong>Created at : </strong>{{$post->created_at->diffForHumans()}}</p>
+                        <p class="pull-left" ><strong>Created at : </strong>{{$post->created_at}}</p>
                         <p class="pull-right" ><strong>Category :</strong>
                             @foreach($post->categories as $category)
                                 <a href="{{route('category',['slug'=>$category->slug])}}" class="btn btn-success">

@@ -1,6 +1,6 @@
 <template>
     <div class="post-preview">
-        <a href="">
+        <a :href="slug">
             <h2 class="post-title">
                 {{title}}
             </h2>
@@ -10,7 +10,10 @@
         </a>
         <p class="post-meta">Posted by
             <a href="#">Start Bootstrap</a> {{created_at}}
-            <a href="" @click.prevent="likeit"> <small>{{likeCount}} </small> <i class="fa fa-thumbs-up"></i></a>
+            <a href="" @click.prevent="likeit"> <small>{{likeCount}} </small>
+                <i class="fa fa-thumbs-up" v-if="likeCount == 0"></i>
+                <i class="fa fa-thumbs-up" style="color: green" v-else="likeCount > 0"></i>
+            </a>
         </p>
     </div>
 
@@ -24,7 +27,7 @@
             }
         },
         props:[
-            'title','subtitle','created_at','postid','login','likes'
+            'title','subtitle','created_at','postid','login','likes','slug'
         ],
         created(){
             this.likeCount = this.likes
@@ -36,7 +39,12 @@
                         id : this.postid
                     })
                         .then(response => {
-                            this.likeCount +=1;
+                            if (response.data == 'deleted'){
+                                this.likeCount -=1;
+                            }else{
+                                this.likeCount +=1;
+                            }
+
                             // this.blog = response.data.data
                             console.log(response);
                         })
@@ -46,7 +54,6 @@
                 }else{
                     window.location = 'login'
                 }
-
             }
         }
     }
